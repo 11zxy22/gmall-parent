@@ -3,8 +3,10 @@ package com.atguigu.gmall.product.controller;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.model.product.BaseCategory1;
 import com.atguigu.gmall.model.product.BaseCategory2;
+import com.atguigu.gmall.model.product.BaseCategory3;
 import com.atguigu.gmall.product.service.BaseCategory1Service;
 import com.atguigu.gmall.product.service.BaseCategory2Service;
+import com.atguigu.gmall.product.service.BaseCategory3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,11 +27,15 @@ public class CategoryController {
 
     @Autowired
     BaseCategory2Service baseCategory2Service;
+
+    @Autowired
+    BaseCategory3Service baseCategory3Service;
+
     /*
         获取所有的一级分类
      */
     @GetMapping("/getCategory1")
-    public Result getCategory1(){
+    public Result getCategory1() {
         List<BaseCategory1> category1List = baseCategory1Service.list();
 
         return Result.ok(category1List);
@@ -43,5 +49,15 @@ public class CategoryController {
     public Result getCategory2(@PathVariable("c1id") Long c1id) {
         List<BaseCategory2> category2List = baseCategory2Service.getCategory1Child(c1id);
         return Result.ok(category2List);
+    }
+
+    /*
+        获取二级分类对应的三级分类
+        /admin/product/getCategory3
+     */
+    @GetMapping("/getCategory3/{c2id}")
+    public Result getCategory3(@PathVariable("c2id") Long c2id) {
+        List<BaseCategory3> category3List = baseCategory3Service.getCateGory2Child(c2id);
+        return Result.ok(category3List);
     }
 }
