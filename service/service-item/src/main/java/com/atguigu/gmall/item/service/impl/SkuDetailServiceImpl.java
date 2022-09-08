@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author zhangxingyu
@@ -36,6 +37,12 @@ public class SkuDetailServiceImpl implements SkuDetailService {
 
     @Autowired
     SkuDetailFeignClient skuDetailFeignClient;
+
+    /*
+        可配置的线程池 可自动注入
+     */
+    @Autowired
+    ThreadPoolExecutor executor;
     @Override
     public SkuDetailTo getSkuDetail(Long skuId) {
         SkuDetailTo skuDetailTo = new SkuDetailTo();
@@ -44,6 +51,14 @@ public class SkuDetailServiceImpl implements SkuDetailService {
 //        SkuDetailTo skuDetailData = skuDetail.getData();
         /*
             优化： 拆分单一职责
+
+            第一版本：一次远程调用，查出所有的数据  缺点：网络交互浪费时间
+            第二版本：六次远程调用
+            以上为同步调用
+
+            优化：异步调用
+            （不可以使用new Thread(),会导致OOM 一个服务出问题可能导致集群雪崩  使用池化技术解决）
+            线程池+阻塞队列解决资源复用与等待问题
 
          */
         //1.查商品的基本信息
