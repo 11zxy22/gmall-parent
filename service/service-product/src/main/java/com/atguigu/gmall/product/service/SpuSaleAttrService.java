@@ -22,4 +22,10 @@ public interface SpuSaleAttrService extends IService<SpuSaleAttr> {
     查询当前sku对应的spu定义的所有销售属性的名和值（固定好顺序） 并且标记当前sku属于哪一种组合
      */
     List<SpuSaleAttr> getSaleAttrAndValueMarkSku(Long spuId, Long skuId);
+
+    /*
+       商品sku的所有兄弟产品的销售属性名和值的组合关系并封装成{“119|120”：“50”}
+     */
+    String getAllSkuSaleAttrValueJson(Long spuId);
+
 }

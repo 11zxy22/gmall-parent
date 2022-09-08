@@ -12,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
  * @author zhangxingyu
  * @create 2022/8/25  9:20
  * @description 文件上传测试
+ * http://192.168.6.100:9000/gmall/pingguo.png
  */
 //@SpringBootTest
 public class MinioTest {
@@ -33,13 +34,12 @@ public class MinioTest {
         }
 
         // 使用putObject上传一个文件到存储桶中。
-        // C:\Users\25352\Pictures\Camera Roll/风景1.jpg
-            FileInputStream fileInputStream = new FileInputStream("D:\\尚硅谷220310Java\\09_JavaEE学科_尚品汇\\资料\\03 商品图片\\品牌\\pingguo.png");
+            FileInputStream fileInputStream = new FileInputStream("D:\\Java资料\\08_Java_电商（尚品汇）\\资料\\03 商品图片\\品牌\\oppo.png");
             PutObjectOptions options = new PutObjectOptions(fileInputStream.available(),-1L);
             options.setContentType("image/png");
             //告诉minio内容类型
             minioClient.putObject("gmall",
-                    "pingguo.png",
+                    "oppo.png",
                     fileInputStream,
                     options);
         System.out.println("上传成功");
